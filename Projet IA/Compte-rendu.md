@@ -31,115 +31,215 @@
 
 ---
 
-## 1. Contexte et Problématique
+# 1. Contexte et Problématique
 
-### Contexte général
-Dans un environnement réglementaire marqué par l'intensification des exigences de transparence (**Loi SOX** aux États-Unis, réformes **OECCA** au Maroc), la qualité du contrôle interne (CI) constitue un pilier fondamental de la gouvernance d'entreprise. 
+## Contexte général
 
-L'identification précoce et la classification fine des défaillances de CI permettent aux auditeurs et aux directions financières d'optimiser leurs processus de remédiation et de réduire les risques d'erreurs significatives dans les états financiers.
+Le contrôle interne constitue un pilier fondamental de la gouvernance des entreprises.  
+Il vise à garantir :
 
-### Problématique
-> *Comment automatiser et fiabiliser la détection des différents niveaux de gravité des défaillances de contrôle interne à partir de données textuelles et structurelles, afin d'améliorer l'efficacité des processus d'audit et de conformité ?*
+- la fiabilité de l'information financière  
+- la conformité aux lois et réglementations  
+- l'efficacité et l'efficience des opérations  
 
----
+Dans un contexte international marqué par l'importance croissante de la transparence financière, plusieurs cadres réglementaires ont renforcé les exigences en matière de contrôle interne. Parmi les plus influents figurent :
 
-## 2. Objectifs du Projet
+- la **Section 404 de la loi Sarbanes-Oxley (SOX)** aux États-Unis  
+- le **référentiel COSO 2013**, largement utilisé comme cadre de référence pour l’évaluation des dispositifs de contrôle interne  
 
-### Objectif principal
-Développer un modèle de **classification automatique** des défaillances de CI selon leur niveau de criticité.
+Ces normes imposent aux entreprises d’identifier, documenter et évaluer les défaillances éventuelles de leurs dispositifs de contrôle interne.
 
-### Objectifs spécifiques
-- [x] Analyser les patterns récurrents dans les déficiences identifiées par les régulateurs (PCAOB) et les guides locaux (OECCA)
-- [x] Établir une cartographie des risques de contrôle par typologie
-- [x] Proposer un outil décisionnel pour les auditeurs internes et externes
+Les auditeurs internes et externes doivent ainsi analyser de nombreux rapports, observations et recommandations afin de déterminer le niveau de gravité des déficiences constatées.
 
----
+## Problématique
 
-## 3. Cadre Méthodologique
+L'analyse manuelle de ces rapports présente plusieurs limites :
 
-### Type de tâche
-**Classification supervisée multi-classes** visant à assigner à chaque observation (défaillance constatée) une étiquette précise parmi trois catégories distinctes de gravité.
+- volume important de données textuelles  
+- risque d’interprétation subjective  
+- temps d’analyse élevé  
 
-### Variable Cible (Target Variable)
+Dans ce contexte, les techniques de **Machine Learning** et de **traitement automatique du langage (NLP)** peuvent offrir des solutions efficaces pour automatiser certaines tâches d’analyse.
 
-| Catégorie | Définition | Critères d'évaluation |
-|-----------|------------|----------------------|
-| **🔴 Déficience significative**<br>(*Significant Deficiency*) | Manquement dans le CI qui risque de ne pas prévenir ou détecter une anomalie significative, sans atteindre le niveau d'une faiblesse matérielle | • Impact modéré sur les états financiers<br>• Contournement possible par d'autres contrôles |
-| **⚫ Faiblesse matérielle**<br>(*Material Weakness*) | Défaillance grave du CI créant une probabilité raisonnable qu'une anomalie significative ne soit pas détectée | • Impact important<br>• Absence de compensations<br>• Communication immédiate requise |
-| **🟡 Point d'amélioration**<br>(*Improvement Area*) | Anomalie mineure ou écart par rapport aux meilleures pratiques | • Faible impact<br>• Recommandations préventives |
+> **Problématique du projet :**  
+> Comment utiliser des techniques de classification automatique pour identifier et catégoriser les défaillances de contrôle interne à partir de descriptions textuelles issues de rapports d’audit et de conformité ?
 
 ---
 
-## 4. Sources de Données
+# 2. Objectifs du Projet
 
-Le modèle s'appuie sur un **corpus hétérogène** combinant données structurées et non structurées :
+## Objectif principal
 
-### 📊 SOX Compliance Datasets (Kaggle)
-- **Nature :** Données issues des déclarations publiques d'entreprises cotées sous la *Section 404* de la Loi Sarbanes-Oxley
-- **Contenu :** Descriptions textuelles des contrôles testés, résultats des évaluations, conclusions des auditeurs externes
-- **Utilisation :** Entraînement initial du modèle NLP pour la reconnaissance des patterns linguistiques
+Développer un modèle de **classification automatique** permettant d’identifier le type de défaillance de contrôle interne à partir d’informations textuelles.
 
-### 📑 Rapports d'inspection du PCAOB
-*(Public Company Accounting Oversight Board)*
-- **Nature :** Rapports publics d'inspection des cabinets d'audit (*Part I findings*)
-- **Apport :** Exemples validés par les régulateurs servant de *ground truth*
-- **Spécificité :** Granularité élevée sur les causes racines des défaillances
+## Objectifs spécifiques
 
-### 📖 Guides de l'OECCA Maroc
-*(Ordre des Experts Comptables et Comptables Agréés)*
-- **Référence :** Guides d'application des normes d'audit adaptés au contexte marocain
-- **Intérêt :** Alignement avec le contexte juridique local (Bourse de Casablanca, loi 69-21)
-- **Données :** Cas pratiques issus des inspections professionnelles nationales
+- Identifier les caractéristiques linguistiques associées aux différents types de défaillances
+- Construire un modèle de **classification supervisée**
+- Automatiser la catégorisation des observations d’audit
+- Faciliter l’analyse des rapports de contrôle interne
+- Aider les auditeurs dans la priorisation des actions correctives
+
+Ce projet vise également à démontrer l’apport de la **data science** dans les métiers de l’audit, du contrôle interne et de la gestion des risques.
 
 ---
 
-## 5. Démarche Technique
+# 3. Cadre Méthodologique
 
-### Pipeline de traitement
+## Type de tâche
 
-```mermaid
-graph LR
-    A[Données brutes<br/>SOX/PCAOB/OECCA] --> B[Prétraitement<br/>NLP & Nettoyage]
-    B --> C[Feature Engineering<br/>TF-IDF / Word2Vec]
-    C --> D[Modélisation<br/>Random Forest / BERT]
-    D --> E[Classification<br/>3 classes de gravité]
-    E --> F[Évaluation<br/>F1-score & Recall]
+Le projet repose sur une approche de **classification supervisée multi-classes**.
 
-Préparation des données
-Nettoyage : Suppression des informations identifiantes, normalisation (lemmatisation)
-Rééquilibrage : Utilisation de SMOTE pour la classe "faiblesse matérielle" (sous-représentée)
-Feature Engineering :
-Extraction de caractéristiques linguistiques (TF-IDF, Word2Vec)
-Métriques structurelles (nombre de contrôles défaillants, ancienneté du système CI)
-Modélisation envisagée
-Algorithme	Usage	Justification
-Random Forest	Baseline & Interprétabilité	Compréhensible pour les auditeurs métier
-BERT	Analyse sémantique avancée	Capture du contexte dans les rapports textuels
-SVM	Classification linéaire	Baseline robuste pour données textuelles
-Métriques d'évaluation
-Accuracy globale
-F1-score macro (critique pour le déséquilibre des classes)
-Recall spécifique pour la classe "Faiblesse matérielle" (minimiser les faux négatifs critiques)
-6. Applications et Enjeux
-Pour l'Audit Interne
-Priorisation automatique des ressources sur les zones à haut risque
-Réduction du temps d'analyse des rapports de contrôle
-Pour la Conformité Réglementaire
-Alignement avec les exigences OECCA Maroc concernant l'évaluation annuelle du CI
-Préparation aux inspections de l'AMMC (Autorité Marocaine du Marché des Capitaux)
-Pour la Gouvernance
-Tableaux de bord prédictifs pour les Comités d'Audit
-Détection précoce des signaux faibles avant escalation
-7. Perspectives
-Limites actuelles
-Biais potentiel de sous-déclaration des faiblesses matérielles dans datasets publics
-Complexité d'adaptation des catégories anglo-saxonnes au contexte marocain
-Évolutions futures
- Intégration de données ESG et cybersécurité dans la classification
- Développement d'une interface web pour cabinets d'audit marocains
- Extension aux contrôles internes non financiers (RH, Supply Chain)
-📚 Références
-PCAOB. (2023). Staff Audit Practice Alert: Maintaining Audit Quality in the Current Environment
-OECCA. (2022). Guide d'application des normes d'audit au Maroc
-Sarbanes-Oxley Act, Section 404 - Internal Control over Financial Reporting
-Kaggle Datasets : SOX Compliance and Internal Control Deficiencies
+Chaque observation correspondant à une défaillance de contrôle interne est associée à une catégorie spécifique indiquant son niveau de gravité.
+
+Le modèle doit apprendre à prédire cette catégorie à partir des caractéristiques du texte décrivant la défaillance.
+
+## Variable cible (Target Variable)
+
+| Catégorie | Définition |
+|-----------|------------|
+| 🔴 **Déficience significative** | Faiblesse du contrôle interne pouvant empêcher la détection d’une anomalie importante dans les états financiers |
+| ⚫ **Faiblesse matérielle** | Défaillance majeure du contrôle interne pouvant conduire à une anomalie significative non détectée |
+| 🟡 **Point d’amélioration** | Observation mineure ou recommandation visant à améliorer les procédures existantes |
+
+Ces catégories sont généralement utilisées dans les rapports d’audit et les évaluations du contrôle interne.
+
+---
+
+# 4. Sources de Données
+
+Le projet repose sur plusieurs sources de données relatives à la conformité et au contrôle interne.
+
+## SOX Compliance Datasets (Kaggle)
+
+Ces jeux de données contiennent des informations liées aux déclarations de conformité des entreprises soumises à la loi Sarbanes-Oxley.
+
+Ils comprennent notamment :
+
+- descriptions des contrôles internes
+- observations des auditeurs
+- classification des déficiences
+
+Ces données peuvent servir de base pour l'entraînement initial du modèle.
+
+## Rapports du PCAOB
+
+Le **Public Company Accounting Oversight Board (PCAOB)** publie régulièrement des rapports d’inspection concernant les cabinets d’audit.
+
+Ces rapports contiennent :
+
+- des exemples réels de défaillances de contrôle interne  
+- des analyses détaillées des causes des anomalies  
+- des recommandations pour améliorer les procédures d’audit  
+
+Ces documents constituent une source précieuse pour l’analyse des défaillances.
+
+## Guides de l'OECCA Maroc
+
+Les guides publiés par l’**Ordre des Experts Comptables et Comptables Agréés (OECCA)** fournissent des références adaptées au contexte réglementaire marocain.
+
+Ils permettent notamment :
+
+- d’aligner l’analyse avec les normes d’audit locales  
+- d’intégrer les spécificités du cadre juridique marocain  
+
+---
+
+# 5. Démarche Technique
+
+La réalisation du projet suit plusieurs étapes principales.
+
+## 1. Collecte des données
+
+Les données sont collectées à partir de différentes sources :
+
+- datasets publics
+- rapports d’audit
+- documents de conformité
+
+## 2. Prétraitement des données
+
+Les données textuelles doivent être nettoyées et préparées avant l'analyse.
+
+Les principales étapes incluent :
+
+- suppression des caractères inutiles  
+- normalisation du texte  
+- suppression des mots vides (stop words)  
+- tokenisation  
+
+## 3. Transformation des données
+
+Le texte est ensuite converti en variables numériques utilisables par les modèles de machine learning.
+
+Une technique couramment utilisée est :
+
+- **TF-IDF (Term Frequency – Inverse Document Frequency)**
+
+Cette méthode permet de mesurer l’importance des mots dans un document par rapport à l’ensemble du corpus.
+
+## 4. Entraînement du modèle
+
+Plusieurs algorithmes de classification peuvent être utilisés :
+
+- Régression logistique  
+- Random Forest  
+- Support Vector Machine (SVM)  
+- Naive Bayes  
+
+Le modèle est entraîné à partir d’un ensemble de données annotées.
+
+## 5. Évaluation du modèle
+
+Les performances du modèle sont évaluées à l’aide de plusieurs métriques :
+
+- **Accuracy**
+- **Precision**
+- **Recall**
+- **F1-score**
+
+Ces indicateurs permettent de mesurer la capacité du modèle à classifier correctement les défaillances.
+
+---
+
+# 6. Applications et Enjeux
+
+L'utilisation de techniques de machine learning dans le domaine du contrôle interne présente plusieurs avantages.
+
+### Amélioration de l'efficacité des audits
+
+L’automatisation de certaines tâches d’analyse permet aux auditeurs de se concentrer sur les activités à plus forte valeur ajoutée.
+
+### Réduction des risques
+
+Une meilleure identification des défaillances de contrôle interne permet de réduire les risques d’erreurs financières et de fraude.
+
+### Aide à la décision
+
+Les modèles de classification peuvent servir d’outil d’aide à la décision pour les responsables du contrôle interne et de la gestion des risques.
+
+---
+
+# 7. Perspectives
+
+Plusieurs perspectives peuvent être envisagées pour améliorer ce projet.
+
+### Amélioration des modèles
+
+L’utilisation de modèles avancés de traitement du langage naturel, tels que les modèles **transformers** ou **BERT**, pourrait améliorer les performances de classification.
+
+### Intégration dans les systèmes d'audit
+
+Le modèle pourrait être intégré dans des outils d’audit interne afin d’assister les professionnels dans l’analyse des rapports.
+
+### Extension des données
+
+L’ajout de nouvelles sources de données permettrait d’améliorer la robustesse et la précision du modèle.
+
+---
+
+# Conclusion
+
+Ce projet illustre le potentiel des techniques de **Machine Learning** appliquées au domaine du contrôle interne et de la gouvernance.
+
+En automatisant la classification des défaillances de contrôle interne, il devient possible d’améliorer l'efficacité des processus d'audit, de renforcer la gestion des risques et de soutenir la prise de décision au sein des organisations.
