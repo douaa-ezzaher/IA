@@ -3,7 +3,7 @@
 
 ---
 
-**Université Hassan 1er — ENCG Settat**
+**Université Hassan 1er — ENCG Settat**;
 **Filière : Contrôle, Audit et Conseil**
 **Réalisé par : Rajib Hidaya & Ezzaher Douaa**
 ---
