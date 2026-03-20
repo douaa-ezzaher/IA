@@ -6,8 +6,6 @@
 **Université Hassan 1er — ENCG Settat**
 **Filière : Contrôle, Audit et Conseil**
 **Réalisé par : Rajib Hidaya & Ezzaher Douaa**
-**Année universitaire : 2024–2025**
-
 ---
 
 ## Sommaire
