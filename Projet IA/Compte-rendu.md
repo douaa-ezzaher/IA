@@ -81,15 +81,15 @@ Une validation croisée (5-fold) a été appliquée sur l'ensemble d'entraîneme
 
 Le graphique ci-dessous montre la répartition des 2 000 observations entre les cinq types de défaillances. `Control Deficiency` est la classe majoritaire (~36 %), tandis que `Fraud Risk` est la plus rare (~7 %), ce qui reflète les proportions observées dans les rapports PCAOB réels.
 
-![Répartition des types de défaillances](graph_2_0.png)
+![Répartition des types de défaillances](graph1.png)
 
 Les boxplots du `risk_score` confirment une séparation nette entre les classes. `Fraud Risk` et `Material Weakness` présentent les scores les plus élevés (médiane ~88 et ~82), tandis que `Control Deficiency` affiche les scores les plus bas (médiane ~42). Cette hiérarchie est cohérente avec la gravité de chaque type de défaillance.
 
-![Risk Score par type de défaillance](graph_2_1.png)
+![Risk Score par type de défaillance](graph2.png)
 
 La heatmap révèle une corrélation modérée à forte entre `num_findings`, `remediation_days` et `risk_score` (0.64 à 0.76) : plus les constats sont nombreux, plus la remédiation prend du temps et plus le risque est élevé. La variable `prior_deficiency` reste faiblement corrélée aux autres (0.29–0.31), ce qui confirme son apport indépendant au modèle.
 
-![Corrélation entre les variables numériques](graph_2_2.png)
+![Corrélation entre les variables numériques](graph3.png)
 
 ### Performances des modèles
 
@@ -105,11 +105,11 @@ Le détail par classe montre que `Control Deficiency` et `Material Weakness` son
 
 La matrice de confusion illustre ces résultats : 134 cas de `Control Deficiency` sur 145 sont correctement prédits, mais 36 cas de `Compliance Violation` sur 68 sont mal classifiés.
 
-![Matrice de confusion — Random Forest](graph_5_1.png)
+![Matrice de confusion — Random Forest](graph4.png)
 
 La courbe ROC présente une **AUC de 0.84** pour la classe `Material Weakness` contre les autres. Le modèle se situe nettement au-dessus de la diagonale en pointillés (classifieur aléatoire), confirmant une bonne capacité de discrimination.
 
-![Courbe ROC — Random Forest](graph_5_2.png)
+![Courbe ROC — Random Forest](graph5.png)
 
 ---
 
