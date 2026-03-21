@@ -12,8 +12,8 @@
 ## Sommaire
 
 1. [Introduction](#introduction)
-2. [Problématique et type de tâche](#problématique-et-type-de-tâche)
-3. [Dictionnaire des variables](#dictionnaire-des-variables)
+2. [Dictionnaire des variables](#dictionnaire-des-variables)
+3. [Problématique et type de tâche](#problématique-et-type-de-tâche)
 4. [Méthodologie](#méthodologie)
 5. [Résultats](#résultats)
 6. [Conclusion](#conclusion)
@@ -25,19 +25,6 @@
 Le jeu de données utilisé porte sur la conformité au référentiel **SOX (Sarbanes-Oxley Act)** dans les entreprises cotées. Chaque ligne correspond à un rapport d'audit et contient des informations sur le profil de l'entreprise (taille, secteur, domaine de contrôle) ainsi que des indicateurs de risque et de défaillance de contrôle interne.
 
 L'objectif est d'utiliser ces informations pour classifier automatiquement le **type de défaillance de contrôle interne** identifiée lors d'un audit.
-
----
-
-## Problématique et type de tâche
-
-> Peut-on classifier automatiquement le type de défaillance de contrôle interne à partir des caractéristiques d'un rapport d'audit SOX ?
-
-Il s'agit d'une **classification multiclasse supervisée**. La variable cible peut prendre cinq valeurs :
-- `Material Weakness` — défaillance grave susceptible d'affecter les états financiers
-- `Significant Deficiency` — déficience importante mais moins critique
-- `Control Deficiency` — déficience mineure, portée limitée
-- `Compliance Violation` — non-respect d'une disposition réglementaire
-- `Fraud Risk` — présence d'indicateurs de risque de fraude
 
 ---
 
@@ -53,6 +40,19 @@ Il s'agit d'une **classification multiclasse supervisée**. La variable cible pe
 | `risk_score` | Numérique | Score de risque global (0–100) |
 | `prior_deficiency` | Binaire | Défaillance lors de la période précédente (0/1) |
 | `deficiency_type` | **Cible** | Type de défaillance (5 classes) |
+
+---
+
+## Problématique et type de tâche
+
+> Peut-on classifier automatiquement le type de défaillance de contrôle interne à partir des caractéristiques d'un rapport d'audit SOX ?
+
+Il s'agit d'une **classification multiclasse supervisée**. La variable cible peut prendre cinq valeurs :
+- `Material Weakness` — défaillance grave susceptible d'affecter les états financiers
+- `Significant Deficiency` — déficience importante mais moins critique
+- `Control Deficiency` — déficience mineure, portée limitée
+- `Compliance Violation` — non-respect d'une disposition réglementaire
+- `Fraud Risk` — présence d'indicateurs de risque de fraude
 
 ---
 
