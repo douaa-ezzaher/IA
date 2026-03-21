@@ -89,7 +89,7 @@ Les boxplots du `risk_score` confirment une séparation nette entre les classes.
 
 La heatmap révèle une corrélation modérée à forte entre `num_findings`, `remediation_days` et `risk_score` (0.64 à 0.76) : plus les constats sont nombreux, plus la remédiation prend du temps et plus le risque est élevé. La variable `prior_deficiency` reste faiblement corrélée aux autres (0.29–0.31), ce qui confirme son apport indépendant au modèle.
 
-![Corrélation entre les variables numériques](graph3.png)
+![Corrélation entre les variables numériques](graph4.png)
 
 ### Performances des modèles
 
@@ -105,7 +105,7 @@ Le détail par classe montre que `Control Deficiency` et `Material Weakness` son
 
 La matrice de confusion illustre ces résultats : 134 cas de `Control Deficiency` sur 145 sont correctement prédits, mais 36 cas de `Compliance Violation` sur 68 sont mal classifiés.
 
-![Matrice de confusion — Random Forest](graph4.png)
+![Matrice de confusion — Random Forest](graph3.png)
 
 La courbe ROC présente une **AUC de 0.84** pour la classe `Material Weakness` contre les autres. Le modèle se situe nettement au-dessus de la diagonale en pointillés (classifieur aléatoire), confirmant une bonne capacité de discrimination.
 
